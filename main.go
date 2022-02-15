@@ -12,22 +12,22 @@ var usernames = []string{
 }
 
 func main() {
+	log.Println("Updating player data for [", strings.Join(usernames, ","), "]...")
+
 	data := fetchData(usernames)
 	players := deserializeData(data, len(usernames))
 
 	updatePlayersData(players)
-
-	log.Printf("Found users %+v\n", players)
+	
+	log.Println("Updated player data for [", strings.Join(usernames, ","), "]!")
 }
 
 func fetchData(usernames []string) []byte {
-	log.Println("Fetching player info for [", strings.Join(usernames, ","), "]...")
+	log.Println("Fetching player data...")
 	data, err := fetchPlayersData(usernames)
 
 	if err != nil {
-		log.Fatalln("Error fetching players!")
-		log.Fatalln(err)
-
+		log.Fatalln("Error fetching players!", err)
 		os.Exit(1)
 	}
 
@@ -40,14 +40,11 @@ func deserializeData(data []byte, nrUsers int) []PlayerData {
 	users, err := deserializePlayers(data, nrUsers)
 
 	if err != nil {
-		log.Fatalln("Error deserializing player data!")
-		log.Fatalln(err)
-
+		log.Fatalln("Error deserializing player data!", err)
 		os.Exit(1)
 	}
 
 	log.Println("Deserialized players!")
-	log.Println("Number of players found: ", len(users))
 	return users
 }
 
@@ -56,9 +53,7 @@ func updatePlayersData(players []PlayerData) {
 	err := updatePlayers(players)
 
 	if err != nil {
-		log.Fatalln("Error updating player data!")
-		log.Fatalln(err)
-
+		log.Fatalln("Error updating player data! ", err)
 		os.Exit(1)
 	}
 

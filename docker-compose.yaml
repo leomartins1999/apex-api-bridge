@@ -4,11 +4,13 @@ services:
 
   app:
     build: .
+    depends_on:
+      - mongo
     environment:
       API_KEY: wsAULvsYtc8oM6GUGxQl
       MONGO_CONNECTION_STRING: mongodb://root:example@mongo:27017/
-      MONGO_PLAYERS_DATABASE: playersDB
-      MONGO_PLAYERS_COLLECTION: players
+      MONGO_DATABASE: playersDB
+      MONGO_COLLECTION: players
 
   mongo:
     image: mongo:5.0.6-focal
@@ -18,6 +20,8 @@ services:
 
   mongo-express:
     image: mongo-express:0.54.0
+    depends_on:
+      - mongo
     ports:
       - 8081:8081
     environment:
