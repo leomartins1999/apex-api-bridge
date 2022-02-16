@@ -6,8 +6,8 @@ services:
     build: .
     depends_on:
       - mongo
+    env_file: .env
     environment:
-      API_KEY: wsAULvsYtc8oM6GUGxQl
       MONGO_CONNECTION_STRING: mongodb://root:example@mongo:27017/
       MONGO_DATABASE: playersDB
       MONGO_COLLECTION: players

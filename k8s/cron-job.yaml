@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: apex-api-sync
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: apex-api-sync
+              image: apex-api-sync:1.0.0
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: apex-api-sync-secret
+                      key: API_KEY
+                - name: MONGO_CONNECTION_STRING
+                  valueFrom:
+                    secretKeyRef:
+                      name: apex-api-sync-secret
+                      key: MONGO_CONNECTION_STRING
+                - name: MONGO_DATABASE
+                  value: playersDB
+                - name: MONGO_COLLECTION
+                  value: players
+          restartPolicy: OnFailure
