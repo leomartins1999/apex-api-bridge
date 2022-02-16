@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
             - name: apex-api-sync
-              image: apex-api-sync:1.0.0
+              image: apex-api-sync:1.1.0
               imagePullPolicy: IfNotPresent
               env:
                 - name: API_KEY
