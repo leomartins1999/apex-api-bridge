@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"os"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -50,6 +51,9 @@ func (p PlayerData) toUpsertModel() mongo.WriteModel {
 		{Key: "name", Value: p.Global.Name},
 		{Key: "platform", Value: p.Global.Platform},
 		{Key: "level", Value: p.Global.Level},
+		{Key: "rank", Value: p.Global.getRank()},
+		{Key: "rankPoints", Value: p.Global.Rank.RankScore},
+		{Key: "updatedAt", Value: time.Now()},
 	}
 
 	model := mongo.NewReplaceOneModel()
