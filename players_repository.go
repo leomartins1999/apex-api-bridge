@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"time"
 
@@ -34,6 +35,27 @@ func updatePlayers(players []PlayerData) error {
 	return err
 }
 
+func fetchUIDs() ([]string, error) {
+	context := context.Background()
+
+	collection, err := getMongoCollection(context)
+	if err != nil {
+		return []string{}, err
+	}
+
+	results, err := collection.Distinct(context, "_id", bson.D{})
+	if err != nil {
+		return []string{}, err
+	}
+
+	uids := make([]string, 0)
+	for _, uid := range results {
+		uids = append(uids, fmt.Sprintf("%v", uid))
+	}
+
+	return uids, nil
+}
+
 func getMongoCollection(c context.Context) (mongo.Collection, error) {
 	options := options.Client().ApplyURI(connectionString)
 
@@ -46,7 +68,7 @@ func getMongoCollection(c context.Context) (mongo.Collection, error) {
 }
 
 func (p PlayerData) toUpsertModel() mongo.WriteModel {
-	filter := bson.D{{Key: "_id", Value: p.Global.Uid}}
+	filter := bson.D{{Key: "_id", Value: fmt.Sprint(p.Global.Uid)}}
 	replacement := bson.D{
 		{Key: "name", Value: p.Global.Name},
 		{Key: "platform", Value: p.Global.Platform},
@@ -59,7 +81,6 @@ func (p PlayerData) toUpsertModel() mongo.WriteModel {
 	model := mongo.NewReplaceOneModel()
 	model.SetFilter(filter)
 	model.SetReplacement(replacement)
-	model.SetUpsert(true)
 
 	return model
 }

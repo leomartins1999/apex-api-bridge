@@ -3,28 +3,39 @@ package main
 import (
 	"log"
 	"os"
-	"strings"
 )
 
-var usernames = []string{
-	"Leoniverse",
-	"monkasSFrEE",
-}
-
 func main() {
-	log.Println("Updating player data for [", strings.Join(usernames, ","), "]...")
+	log.Println("Updating player data...")
 
-	data := fetchData(usernames)
-	players := deserializeData(data, len(usernames))
+	ids := fetchPlayerIDs()
+
+	log.Println("Updating player data for ids", ids)
+
+	data := fetchData(ids)
+	players := deserializeData(data, len(ids))
 
 	updatePlayersData(players)
-	
-	log.Println("Updated player data for [", strings.Join(usernames, ","), "]!")
+
+	log.Println("Updated player data for ids", ids)
 }
 
-func fetchData(usernames []string) []byte {
+func fetchPlayerIDs() []string {
+	log.Println("Fetching player IDs...")
+	ids, err := fetchUIDs()
+
+	if err != nil {
+		log.Fatalln("Error fetching player IDs !", err)
+		os.Exit(1)
+	}
+
+	log.Println("Fetched player IDs!")
+	return ids
+}
+
+func fetchData(ids []string) []byte {
 	log.Println("Fetching player data...")
-	data, err := fetchPlayersData(usernames)
+	data, err := fetchPlayersData(ids)
 
 	if err != nil {
 		log.Fatalln("Error fetching players!", err)

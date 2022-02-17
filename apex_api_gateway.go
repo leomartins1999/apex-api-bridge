@@ -8,15 +8,15 @@ import (
 	"strings"
 )
 
-const baseUrl = "https://api.mozambiquehe.re/bridge?version=%s&platform=%s&player=%s&auth=%s"
+const baseUrl = "https://api.mozambiquehe.re/bridge?version=%s&platform=%s&uid=%s&auth=%s"
 
 const apiVersion = "5"
 const platform = "PC"
 
 var apiKey = os.Getenv("API_KEY")
 
-func fetchPlayersData(usernames []string) ([]byte, error) {
-	url := buildPlayersURL(usernames)
+func fetchPlayersData(ids []string) ([]byte, error) {
+	url := buildPlayersURL(ids)
 
 	resp, err := executeRequest(url)
 	if err != nil {
@@ -26,10 +26,10 @@ func fetchPlayersData(usernames []string) ([]byte, error) {
 	return getRequestBody(resp)
 }
 
-func buildPlayersURL(usernames []string) string {
-	players := strings.Join(usernames, ",")
+func buildPlayersURL(ids []string) string {
+	uids := strings.Join(ids, ",")
 
-	return fmt.Sprintf(baseUrl, apiVersion, platform, players, apiKey)
+	return fmt.Sprintf(baseUrl, apiVersion, platform, uids, apiKey)
 }
 
 func executeRequest(url string) (*http.Response, error) {
