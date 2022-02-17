@@ -3,7 +3,8 @@ package main
 import "fmt"
 
 type PlayerData struct {
-	Global GlobalData `json:"global"`
+	Global   GlobalData   `json:"global"`
+	Realtime RealtimeData `json:"realtime"`
 }
 
 type GlobalData struct {
@@ -18,6 +19,10 @@ type RankData struct {
 	RankScore int    `json:"rankScore"`
 	RankName  string `json:"rankName"`
 	RankDiv   int    `json:"rankDiv"`
+}
+
+type RealtimeData struct {
+	SelectedLegend string `json:"selectedLegend"`
 }
 
 func (g GlobalData) getRank() string {

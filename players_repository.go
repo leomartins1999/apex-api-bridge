@@ -76,6 +76,7 @@ func (p PlayerData) toUpsertModel() mongo.WriteModel {
 		{Key: "rank", Value: p.Global.getRank()},
 		{Key: "rankPoints", Value: p.Global.Rank.RankScore},
 		{Key: "updatedAt", Value: time.Now()},
+		{Key: "selectedLegend", Value: p.Realtime.SelectedLegend},
 	}
 
 	model := mongo.NewReplaceOneModel()
