@@ -9,8 +9,10 @@ services:
     env_file: .env
     environment:
       MONGO_CONNECTION_STRING: mongodb://root:example@mongo:27017/
-      MONGO_DATABASE: playersDB
-      MONGO_COLLECTION: players
+      MONGO_PLAYERS_DATABASE: playersDB
+      MONGO_PLAYERS_COLLECTION: players
+      MONGO_GAMES_DATABASE: gamesDB
+      MONGO_GAMES_COLLECTION: games
 
   mongo:
     image: mongo:5.0.6-focal

@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"os"
 )
 
 func main() {
@@ -18,6 +17,24 @@ func main() {
 	updatePlayersData(players)
 
 	log.Println("Updated player data for ids", ids)
+
+	log.Println("Updating games...")
+
+	games := make([]GameData, 0)
+
+	for _, id := range ids {
+		playerGames, err := fetchGames(id)
+
+		if err != nil {
+			log.Fatalln("Error fetching games for player ", id, err)
+		}
+
+		games = append(games, playerGames...)
+	}
+
+	updateGames(games)
+
+	log.Println("Updated games!")
 }
 
 func fetchPlayerIDs() []string {
@@ -26,7 +43,6 @@ func fetchPlayerIDs() []string {
 
 	if err != nil {
 		log.Fatalln("Error fetching player IDs !", err)
-		os.Exit(1)
 	}
 
 	log.Println("Fetched player IDs!")
@@ -39,7 +55,6 @@ func fetchData(ids []string) []byte {
 
 	if err != nil {
 		log.Fatalln("Error fetching players!", err)
-		os.Exit(1)
 	}
 
 	log.Println("Fetched player data!")
@@ -52,7 +67,6 @@ func deserializeData(data []byte, nrUsers int) []PlayerData {
 
 	if err != nil {
 		log.Fatalln("Error deserializing player data!", err)
-		os.Exit(1)
 	}
 
 	log.Println("Deserialized players!")
@@ -65,7 +79,6 @@ func updatePlayersData(players []PlayerData) {
 
 	if err != nil {
 		log.Fatalln("Error updating player data! ", err)
-		os.Exit(1)
 	}
 
 	log.Println("Updated players data!")

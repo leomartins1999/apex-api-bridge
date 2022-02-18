@@ -9,8 +9,10 @@ Player data is sourced from https://apexlegendsapi.com/
 |:-|:-|:-|
 |API_KEY|API Key for apexlegendsapi||
 |MONGO_CONNECTION_STRING|Mongo Connection String||
-|MONGO_DATABASE|Mongo Database||
-|MONGO_COLLECTION|Mongo Collection||
+|MONGO_PLAYERS_DATABASE|Mongo Players Database||
+|MONGO_PLAYERS_COLLECTION|Mongo Players Collection||
+|MONGO_GAMES_DATABASE|Mongo Games Database||
+|MONGO_GAMES_COLLECTION|Mongo Games Collection||
 
 ## Running this app locally
 

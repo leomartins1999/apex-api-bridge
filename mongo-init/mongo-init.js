@@ -1,3 +1,5 @@
+db.getSiblingDB("gamesDB");
+
 db.players.insertMany(
     [
         { _id: "2400368806" },

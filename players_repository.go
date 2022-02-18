@@ -12,13 +12,17 @@ import (
 )
 
 var connectionString = os.Getenv("MONGO_CONNECTION_STRING")
-var database = os.Getenv("MONGO_DATABASE")
-var collection = os.Getenv("MONGO_COLLECTION")
+
+var playersDB = os.Getenv("MONGO_PLAYERS_DATABASE")
+var playersCol = os.Getenv("MONGO_PLAYERS_COLLECTION")
+
+var gamesDB = os.Getenv("MONGO_GAMES_DATABASE")
+var gamesCol = os.Getenv("MONGO_GAMES_COLLECTION")
 
 func updatePlayers(players []PlayerData) error {
 	context := context.Background()
 
-	collection, err := getMongoCollection(context)
+	collection, err := getMongoCollection(context, playersDB, playersCol)
 	if err != nil {
 		return err
 	}
@@ -38,7 +42,7 @@ func updatePlayers(players []PlayerData) error {
 func fetchUIDs() ([]string, error) {
 	context := context.Background()
 
-	collection, err := getMongoCollection(context)
+	collection, err := getMongoCollection(context, playersDB, playersCol)
 	if err != nil {
 		return []string{}, err
 	}
@@ -56,7 +60,27 @@ func fetchUIDs() ([]string, error) {
 	return uids, nil
 }
 
-func getMongoCollection(c context.Context) (mongo.Collection, error) {
+func updateGames(games []GameData) error {
+	context := context.Background()
+
+	collection, err := getMongoCollection(context, gamesDB, gamesCol)
+	if err != nil {
+		return err
+	}
+
+	models := make([]mongo.WriteModel, 0)
+	for _, game := range games {
+		models = append(models, game.toUpsertModel())
+	}
+
+	options := options.BulkWrite().SetOrdered(false)
+
+	_, err = collection.BulkWrite(context, models, options)
+
+	return err
+}
+
+func getMongoCollection(c context.Context, databaseName string, collectionName string) (mongo.Collection, error) {
 	options := options.Client().ApplyURI(connectionString)
 
 	client, err := mongo.Connect(c, options)
@@ -64,7 +88,7 @@ func getMongoCollection(c context.Context) (mongo.Collection, error) {
 		return mongo.Collection{}, err
 	}
 
-	return *client.Database(database).Collection(collection), nil
+	return *client.Database(databaseName).Collection(collectionName), nil
 }
 
 func (p PlayerData) toUpsertModel() mongo.WriteModel {
@@ -82,6 +106,29 @@ func (p PlayerData) toUpsertModel() mongo.WriteModel {
 	model := mongo.NewReplaceOneModel()
 	model.SetFilter(filter)
 	model.SetReplacement(replacement)
+
+	return model
+}
+
+func (g GameData) toUpsertModel() mongo.WriteModel {
+	filter := bson.D{{Key: "_id", Value: g.getGameId()}}
+	replacement := bson.D{
+		{Key: "playerId", Value: g.PlayerUid},
+		{Key: "playerName", Value: g.PlayerName},
+		{Key: "gameMode", Value: g.GameMode},
+		{Key: "legendPlayed", Value: g.LegendPlayed},
+		{Key: "startedAt", Value: time.Unix(g.StartTimestamp, 0)},
+		{Key: "endedAt", Value: time.Unix(g.EndTimestamp, 0)},
+		{Key: "damageDone", Value: g.getDamageDone()},
+		{Key: "kills", Value: g.getKills()},
+		{Key: "scoreChange", Value: g.getScoreChange()},
+		{Key: "updatedAt", Value: time.Now()},
+	}
+
+	model := mongo.NewReplaceOneModel()
+	model.SetFilter(filter)
+	model.SetReplacement(replacement)
+	model.SetUpsert(true)
 
 	return model
 }
