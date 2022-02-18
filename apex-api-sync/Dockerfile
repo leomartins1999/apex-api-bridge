@@ -9,7 +9,6 @@ COPY go.sum ./
 RUN go mod download
 
 COPY models ./models
-COPY deserializers ./deserializers
 COPY apigateway ./apigateway
 COPY repositories ./repositories
 COPY main.go ./main.go

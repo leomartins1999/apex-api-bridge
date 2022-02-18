@@ -1,16 +1,26 @@
-package deserializers
+package apigateway
 
 import (
 	"apex-api-sync/models"
 	"encoding/json"
+	"log"
 )
 
-func DeserializePlayers(data []byte, nrPlayers int) ([]models.PlayerData, error) {
+func deserializePlayers(data []byte, nrPlayers int) []models.PlayerData {
+	var result []models.PlayerData
+	var err error
+
 	if nrPlayers == 1 {
-		return deserializeSinglePlayer(data)
+		result, err = deserializeSinglePlayer(data)
 	} else {
-		return deserializeMultiplePlayers(data)
+		result, err = deserializeMultiplePlayers(data)
 	}
+
+	if err != nil {
+		log.Fatalln("player_deserializer#deserializePlayers - Error deserializing players. Data: ", string(data), "Error: ", err)
+	}
+
+	return result
 }
 
 func deserializeSinglePlayer(data []byte) ([]models.PlayerData, error) {
