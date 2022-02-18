@@ -2,8 +2,22 @@ version: "3.9"
 
 services:
 
-  app:
-    build: apex-api-sync
+  sync-players:
+    build:
+      context: ./
+      dockerfile: ./sync-players/Dockerfile
+    depends_on:
+      - mongo
+    env_file: .env
+    environment:
+      MONGO_CONNECTION_STRING: mongodb://root:example@mongo:27017/
+      MONGO_PLAYERS_DATABASE: playersDB
+      MONGO_PLAYERS_COLLECTION: players
+
+  sync-games:
+    build:
+      context: ./
+      dockerfile: ./sync-games/Dockerfile
     depends_on:
       - mongo
     env_file: .env
