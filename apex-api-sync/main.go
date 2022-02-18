@@ -3,8 +3,10 @@ package main
 import (
 	"log"
 
+	"apex-api-sync/apigateway"
 	"apex-api-sync/deserializers"
 	"apex-api-sync/models"
+	"apex-api-sync/repositories"
 )
 
 func main() {
@@ -26,7 +28,7 @@ func main() {
 	games := make([]models.GameData, 0)
 
 	for _, id := range ids {
-		playerGames, err := fetchGames(id)
+		playerGames, err := apigateway.FetchGames(id)
 
 		if err != nil {
 			log.Fatalln("Error fetching games for player ", id, err)
@@ -35,14 +37,14 @@ func main() {
 		games = append(games, playerGames...)
 	}
 
-	updateGames(games)
+	repositories.UpdateGames(games)
 
 	log.Println("Updated games!")
 }
 
 func fetchPlayerIDs() []string {
 	log.Println("Fetching player IDs...")
-	ids, err := fetchUIDs()
+	ids, err := repositories.FetchUIDs()
 
 	if err != nil {
 		log.Fatalln("Error fetching player IDs !", err)
@@ -54,7 +56,7 @@ func fetchPlayerIDs() []string {
 
 func fetchData(ids []string) []byte {
 	log.Println("Fetching player data...")
-	data, err := fetchPlayersData(ids)
+	data, err := apigateway.FetchPlayersData(ids)
 
 	if err != nil {
 		log.Fatalln("Error fetching players!", err)
@@ -78,7 +80,7 @@ func deserializeData(data []byte, nrUsers int) []models.PlayerData {
 
 func updatePlayersData(players []models.PlayerData) {
 	log.Println("Updating players data...")
-	err := updatePlayers(players)
+	err := repositories.UpdatePlayers(players)
 
 	if err != nil {
 		log.Fatalln("Error updating player data! ", err)

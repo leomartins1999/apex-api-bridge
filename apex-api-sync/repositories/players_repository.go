@@ -1,4 +1,4 @@
-package main
+package repositories
 
 import (
 	"apex-api-sync/models"
@@ -20,7 +20,7 @@ var playersCol = os.Getenv("MONGO_PLAYERS_COLLECTION")
 var gamesDB = os.Getenv("MONGO_GAMES_DATABASE")
 var gamesCol = os.Getenv("MONGO_GAMES_COLLECTION")
 
-func updatePlayers(players []models.PlayerData) error {
+func UpdatePlayers(players []models.PlayerData) error {
 	context := context.Background()
 
 	collection, err := getMongoCollection(context, playersDB, playersCol)
@@ -40,7 +40,7 @@ func updatePlayers(players []models.PlayerData) error {
 	return err
 }
 
-func fetchUIDs() ([]string, error) {
+func FetchUIDs() ([]string, error) {
 	context := context.Background()
 
 	collection, err := getMongoCollection(context, playersDB, playersCol)
@@ -61,7 +61,7 @@ func fetchUIDs() ([]string, error) {
 	return uids, nil
 }
 
-func updateGames(games []models.GameData) error {
+func UpdateGames(games []models.GameData) error {
 	context := context.Background()
 
 	collection, err := getMongoCollection(context, gamesDB, gamesCol)

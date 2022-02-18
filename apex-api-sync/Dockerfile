@@ -10,7 +10,9 @@ RUN go mod download
 
 COPY models ./models
 COPY deserializers ./deserializers
-COPY *.go ./
+COPY apigateway ./apigateway
+COPY repositories ./repositories
+COPY main.go ./main.go
 
 RUN go build -o /apex-api-sync
 

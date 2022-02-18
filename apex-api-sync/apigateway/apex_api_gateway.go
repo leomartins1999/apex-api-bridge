@@ -1,4 +1,4 @@
-package main
+package apigateway
 
 import (
 	"fmt"
@@ -19,7 +19,7 @@ const platform = "PC"
 
 var apiKey = os.Getenv("API_KEY")
 
-func fetchPlayersData(ids []string) ([]byte, error) {
+func FetchPlayersData(ids []string) ([]byte, error) {
 	url := buildPlayersURL(ids)
 
 	resp, err := executeRequest(url)
@@ -30,7 +30,7 @@ func fetchPlayersData(ids []string) ([]byte, error) {
 	return getRequestBody(resp)
 }
 
-func fetchGames(playerId string) ([]models.GameData, error) {
+func FetchGames(playerId string) ([]models.GameData, error) {
 	url := buildGamesURL(playerId)
 
 	resp, err := executeRequest(url)
