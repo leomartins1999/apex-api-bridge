@@ -5,7 +5,7 @@ import (
 
 	"apex-api-sync/apigateway"
 	"apex-api-sync/models"
-	"apex-api-sync/repositories"
+	"apex-api-sync/repository"
 )
 
 func main() {
@@ -31,21 +31,14 @@ func main() {
 		games = append(games, playerGames...)
 	}
 
-	repositories.UpdateGames(games)
+	repository.UpdateGames(games)
 
 	log.Println("Updated games!")
 }
 
 func fetchPlayerIDs() []string {
 	log.Println("Fetching player IDs...")
-	ids, err := repositories.FetchUIDs()
-
-	if err != nil {
-		log.Fatalln("Error fetching player IDs !", err)
-	}
-
-	log.Println("Fetched player IDs!")
-	return ids
+	return repository.FetchPlayerIDs()
 }
 
 func fetchData(ids []string) []models.PlayerData {
@@ -57,11 +50,5 @@ func fetchData(ids []string) []models.PlayerData {
 
 func updatePlayersData(players []models.PlayerData) {
 	log.Println("Updating players data...")
-	err := repositories.UpdatePlayers(players)
-
-	if err != nil {
-		log.Fatalln("Error updating player data! ", err)
-	}
-
-	log.Println("Updated players data!")
+	repository.UpdatePlayers(players)
 }
