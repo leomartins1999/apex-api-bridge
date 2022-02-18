@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sync-games-cron
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: apex-sync-games
+              image: apex-sync-games:1.4.0
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: apex-api-sync-secret
+                      key: API_KEY
+                - name: MONGO_CONNECTION_STRING
+                  valueFrom:
+                    secretKeyRef:
+                      name: apex-api-sync-secret
+                      key: MONGO_CONNECTION_STRING
+                - name: MONGO_PLAYERS_DATABASE
+                  value: playersDB
+                - name: MONGO_PLAYERS_COLLECTION
+                  value: players
+                - name: MONGO_GAMES_DATABASE
+                  value: gamesDB
+                - name: MONGO_GAMES_COLLECTION
+                  value: games
+          restartPolicy: OnFailure
