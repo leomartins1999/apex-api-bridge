@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"apex-api-sync/deserializers"
 	"apex-api-sync/models"
 )
 
@@ -65,7 +66,7 @@ func fetchData(ids []string) []byte {
 
 func deserializeData(data []byte, nrUsers int) []models.PlayerData {
 	log.Println("Deserializing player data...")
-	users, err := deserializePlayers(data, nrUsers)
+	users, err := deserializers.DeserializePlayers(data, nrUsers)
 
 	if err != nil {
 		log.Fatalln("Error deserializing player data!", err)

@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"apex-api-sync/deserializers"
 	"apex-api-sync/models"
 )
 
@@ -42,7 +43,7 @@ func fetchGames(playerId string) ([]models.GameData, error) {
 		return []models.GameData{}, err
 	}
 
-	return deserializeGames(body)
+	return deserializers.DeserializeGames(body)
 }
 
 func buildPlayersURL(ids []string) string {

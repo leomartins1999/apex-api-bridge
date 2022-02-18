@@ -8,8 +8,9 @@ COPY go.sum ./
 
 RUN go mod download
 
-COPY *.go ./
 COPY models ./models
+COPY deserializers ./deserializers
+COPY *.go ./
 
 RUN go build -o /apex-api-sync
 

@@ -1,11 +1,11 @@
-package main
+package deserializers
 
 import (
 	"apex-api-sync/models"
 	"encoding/json"
 )
 
-func deserializePlayers(data []byte, nrPlayers int) ([]models.PlayerData, error) {
+func DeserializePlayers(data []byte, nrPlayers int) ([]models.PlayerData, error) {
 	if nrPlayers == 1 {
 		return deserializeSinglePlayer(data)
 	} else {

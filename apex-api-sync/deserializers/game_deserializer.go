@@ -1,11 +1,11 @@
-package main
+package deserializers
 
 import (
 	"apex-api-sync/models"
 	"encoding/json"
 )
 
-func deserializeGames(data []byte) ([]models.GameData, error) {
+func DeserializeGames(data []byte) ([]models.GameData, error) {
 	games := make([]models.GameData, 0)
 
 	err := json.Unmarshal(data, &games)
