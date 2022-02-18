@@ -1,7 +1,7 @@
 package apigateway
 
 import (
-	"apex-api-sync/models"
+	"apex-sync-commons/models"
 	"fmt"
 )
 

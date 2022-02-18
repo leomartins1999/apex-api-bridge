@@ -1,4 +1,4 @@
-module apex-api-sync
+module apex-sync-commons
 
 go 1.17
 

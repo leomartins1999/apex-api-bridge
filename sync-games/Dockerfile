@@ -4,7 +4,7 @@ FROM golang:1.17.7-alpine as build
 
 WORKDIR /app/core
 
-COPY ./apex-api-sync /app/apex-api-sync
+COPY ./apex-sync-commons /app/apex-sync-commons
 COPY ./sync-games /app/core/
 
 RUN go build -o /sync-games

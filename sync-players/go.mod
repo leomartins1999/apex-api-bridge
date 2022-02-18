@@ -2,9 +2,9 @@ module main
 
 go 1.17
 
-replace apex-api-sync => ../apex-api-sync
+replace apex-sync-commons => ../apex-sync-commons
 
-require apex-api-sync v0.0.0-00010101000000-000000000000
+require apex-sync-commons v0.0.0-00010101000000-000000000000
 
 require (
 	github.com/go-stack/stack v1.8.0 // indirect

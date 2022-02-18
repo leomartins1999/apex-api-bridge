@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"apex-api-sync/apigateway"
-	"apex-api-sync/repository"
+	"apex-sync-commons/apigateway"
+	"apex-sync-commons/repository"
 )
 
 func main() {

@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"apex-api-sync/models"
+	"apex-sync-commons/models"
 	"fmt"
 	"time"
 
