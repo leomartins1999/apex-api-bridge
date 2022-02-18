@@ -9,6 +9,7 @@ COPY go.sum ./
 RUN go mod download
 
 COPY *.go ./
+COPY models ./models
 
 RUN go build -o /apex-api-sync
 

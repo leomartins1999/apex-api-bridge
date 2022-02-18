@@ -1,10 +1,11 @@
 package main
 
 import (
+	"apex-api-sync/models"
 	"encoding/json"
 )
 
-func deserializePlayers(data []byte, nrPlayers int) ([]PlayerData, error) {
+func deserializePlayers(data []byte, nrPlayers int) ([]models.PlayerData, error) {
 	if nrPlayers == 1 {
 		return deserializeSinglePlayer(data)
 	} else {
@@ -12,16 +13,16 @@ func deserializePlayers(data []byte, nrPlayers int) ([]PlayerData, error) {
 	}
 }
 
-func deserializeSinglePlayer(data []byte) ([]PlayerData, error) {
-	var p PlayerData
+func deserializeSinglePlayer(data []byte) ([]models.PlayerData, error) {
+	var p models.PlayerData
 
 	err := json.Unmarshal(data, &p)
 
-	return []PlayerData{p}, err
+	return []models.PlayerData{p}, err
 }
 
-func deserializeMultiplePlayers(data []byte) ([]PlayerData, error) {
-	players := make([]PlayerData, 0)
+func deserializeMultiplePlayers(data []byte) ([]models.PlayerData, error) {
+	players := make([]models.PlayerData, 0)
 
 	err := json.Unmarshal(data, &players)
 

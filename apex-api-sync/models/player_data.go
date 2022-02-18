@@ -1,4 +1,4 @@
-package main
+package models
 
 import "fmt"
 
@@ -25,6 +25,6 @@ type RealtimeData struct {
 	SelectedLegend string `json:"selectedLegend"`
 }
 
-func (g GlobalData) getRank() string {
+func (g GlobalData) GetRank() string {
 	return fmt.Sprintf("%s - %d", g.Rank.RankName, g.Rank.RankDiv)
 }

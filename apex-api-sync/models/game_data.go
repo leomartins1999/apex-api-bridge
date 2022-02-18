@@ -1,4 +1,4 @@
-package main
+package models
 
 import (
 	"fmt"
@@ -24,19 +24,19 @@ type GameStat struct {
 	Name  string `json:"name"`
 }
 
-func (g GameData) getGameId() string {
+func (g GameData) GetGameId() string {
 	return fmt.Sprintf("%s-%d", g.PlayerUid, g.StartTimestamp)
 }
 
-func (g GameData) getDamageDone() int {
+func (g GameData) GetDamageDone() int {
 	return g.getStatValueByKey("damage")
 }
 
-func (g GameData) getKills() int {
+func (g GameData) GetKills() int {
 	return g.getStatValueByKey("kills")
 }
 
-func (g GameData) getScoreChange() int {
+func (g GameData) GetScoreChange() int {
 	if g.GameMode == "BATTLE_ROYALE" {
 		return g.BRScoreChange
 	}

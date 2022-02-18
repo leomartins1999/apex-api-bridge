@@ -1,4 +1,4 @@
-module main
+module apex-api-sync
 
 go 1.17
 

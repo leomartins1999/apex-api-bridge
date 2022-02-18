@@ -2,6 +2,8 @@ package main
 
 import (
 	"log"
+
+	"apex-api-sync/models"
 )
 
 func main() {
@@ -20,7 +22,7 @@ func main() {
 
 	log.Println("Updating games...")
 
-	games := make([]GameData, 0)
+	games := make([]models.GameData, 0)
 
 	for _, id := range ids {
 		playerGames, err := fetchGames(id)
@@ -61,7 +63,7 @@ func fetchData(ids []string) []byte {
 	return data
 }
 
-func deserializeData(data []byte, nrUsers int) []PlayerData {
+func deserializeData(data []byte, nrUsers int) []models.PlayerData {
 	log.Println("Deserializing player data...")
 	users, err := deserializePlayers(data, nrUsers)
 
@@ -73,7 +75,7 @@ func deserializeData(data []byte, nrUsers int) []PlayerData {
 	return users
 }
 
-func updatePlayersData(players []PlayerData) {
+func updatePlayersData(players []models.PlayerData) {
 	log.Println("Updating players data...")
 	err := updatePlayers(players)
 

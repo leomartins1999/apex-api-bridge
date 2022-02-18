@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"apex-api-sync/models"
 )
 
 const playersURL = "https://api.mozambiquehe.re/bridge?version=%s&platform=%s&uid=%s&auth=%s"
@@ -27,17 +29,17 @@ func fetchPlayersData(ids []string) ([]byte, error) {
 	return getRequestBody(resp)
 }
 
-func fetchGames(playerId string) ([]GameData, error) {
+func fetchGames(playerId string) ([]models.GameData, error) {
 	url := buildGamesURL(playerId)
 
 	resp, err := executeRequest(url)
 	if err != nil {
-		return []GameData{}, err
+		return []models.GameData{}, err
 	}
 
 	body, err := getRequestBody(resp)
 	if err != nil {
-		return []GameData{}, err
+		return []models.GameData{}, err
 	}
 
 	return deserializeGames(body)
